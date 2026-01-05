@@ -108,6 +108,12 @@ export default function Home() {
   const [avgResponseTime, setAvgResponseTime] = useState('200');
   const [stressMultiplier, setStressMultiplier] = useState('1.5');
 
+  // Duraciones editables de pruebas (valores por defecto recomendados)
+  const [smokeTestDuration, setSmokeTestDuration] = useState('5');
+  const [loadTestDuration, setLoadTestDuration] = useState('30');
+  const [stressTestDuration, setStressTestDuration] = useState('15');
+  const [spikeTestDuration, setSpikeTestDuration] = useState('10');
+
   // Cálculos
   const requestsValue = parseFloat(requests);
   const requestsPerSecond =
@@ -125,11 +131,11 @@ export default function Home() {
   const stressRPS = requestsPerSecond * stressMult;
   const stressVUs = Math.ceil(stressRPS * avgRespTimeSec);
 
-  // Duración recomendada de pruebas
-  const smokeTestDuration = 5; // minutos
-  const loadTestDuration = 30; // minutos
-  const stressTestDuration = 15; // minutos
-  const spikeTestDuration = 10; // minutos
+  // Convertir duraciones a números
+  const smokeTestDurationNum = parseFloat(smokeTestDuration) || 5;
+  const loadTestDurationNum = parseFloat(loadTestDuration) || 30;
+  const stressTestDurationNum = parseFloat(stressTestDuration) || 15;
+  const spikeTestDurationNum = parseFloat(spikeTestDuration) || 10;
 
   return (
     <div className="min-h-screen from-gray-50 to-gray-100 p-8">
@@ -238,6 +244,23 @@ export default function Home() {
               <p className="text-gray-600 text-sm mb-4">
                 Verificación básica de funcionalidad con carga mínima
               </p>
+              {/* Duración editable */}
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2 text-sm font-medium">
+                  Duración (minutos)
+                </label>
+                <input
+                  type="number"
+                  step="1"
+                  value={smokeTestDuration}
+                  onChange={(e) => setSmokeTestDuration(e.target.value)}
+                  className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Recomendado: 5 minutos
+                </p>
+              </div>
+
               <div className="grid grid-cols-4 gap-3 mb-4">
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
@@ -248,7 +271,7 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Duración</div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {smokeTestDuration}m
+                    {smokeTestDurationNum}m
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -263,7 +286,7 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Total Requests</div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {Math.ceil(requestsPerSecond * 0.1 * smokeTestDuration * 60)}
+                    {Math.ceil(requestsPerSecond * 0.1 * smokeTestDurationNum * 60)}
                   </div>
                 </div>
               </div>
@@ -284,6 +307,24 @@ export default function Home() {
               <p className="text-gray-600 text-sm mb-4">
                 Prueba con la carga esperada en producción
               </p>
+
+              {/* Duración editable */}
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2 text-sm font-medium">
+                  Duración (minutos)
+                </label>
+                <input
+                  type="number"
+                  step="1"
+                  value={loadTestDuration}
+                  onChange={(e) => setLoadTestDuration(e.target.value)}
+                  className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Recomendado: 30 minutos
+                </p>
+              </div>
+
               <div className="grid grid-cols-4 gap-3 mb-4">
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
@@ -292,7 +333,7 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Duración</div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {loadTestDuration}m
+                    {loadTestDurationNum}m
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -307,7 +348,7 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Total Requests</div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {Math.ceil(requestsPerSecond * loadTestDuration * 60)}
+                    {Math.ceil(requestsPerSecond * loadTestDurationNum * 60)}
                   </div>
                 </div>
               </div>
@@ -346,6 +387,23 @@ export default function Home() {
                 </p>
               </div>
 
+              {/* Duración editable */}
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2 text-sm font-medium">
+                  Duración (minutos)
+                </label>
+                <input
+                  type="number"
+                  step="1"
+                  value={stressTestDuration}
+                  onChange={(e) => setStressTestDuration(e.target.value)}
+                  className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Recomendado: 15 minutos
+                </p>
+              </div>
+
               <div className="grid grid-cols-4 gap-3 mb-4">
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
@@ -356,7 +414,7 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Duración</div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {stressTestDuration}m
+                    {stressTestDurationNum}m
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -371,7 +429,7 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Total Requests</div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {Math.ceil(stressRPS * stressTestDuration * 60)}
+                    {Math.ceil(stressRPS * stressTestDurationNum * 60)}
                   </div>
                 </div>
               </div>
@@ -392,6 +450,24 @@ export default function Home() {
               <p className="text-gray-600 text-sm mb-4">
                 Picos repentinos de tráfico (2x la carga normal)
               </p>
+
+              {/* Duración editable */}
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2 text-sm font-medium">
+                  Duración (minutos)
+                </label>
+                <input
+                  type="number"
+                  step="1"
+                  value={spikeTestDuration}
+                  onChange={(e) => setSpikeTestDuration(e.target.value)}
+                  className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Recomendado: 10 minutos
+                </p>
+              </div>
+
               <div className="grid grid-cols-4 gap-3 mb-4">
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
@@ -402,7 +478,7 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Duración</div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {spikeTestDuration}m
+                    {spikeTestDurationNum}m
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -417,7 +493,7 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Total Requests</div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {Math.ceil(requestsPerSecond * 2 * spikeTestDuration * 60)}
+                    {Math.ceil(requestsPerSecond * 2 * spikeTestDurationNum * 60)}
                   </div>
                 </div>
               </div>
@@ -442,7 +518,7 @@ import { check, sleep } from 'k6';
 export const options = {
   stages: [
     { duration: '2m', target: ${Math.ceil(baseVUs * 0.5)} }, // Ramp-up
-    { duration: '${loadTestDuration}m', target: ${baseVUs} }, // Stay at peak
+    { duration: '${loadTestDurationNum}m', target: ${baseVUs} }, // Stay at peak
     { duration: '2m', target: 0 }, // Ramp-down
   ],
   thresholds: {
@@ -496,7 +572,7 @@ export default function () {
                     <p className="font-semibold text-gray-900 mb-1">2️⃣ Stay (Permanencia en pico)</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>
-                        <span className="font-semibold">Duración sugerida:</span> {loadTestDuration}min (Load Test), {stressTestDuration}min (Stress), {spikeTestDuration}min (Spike)
+                        <span className="font-semibold">Duración sugerida:</span> {loadTestDurationNum}min (Load Test), {stressTestDurationNum}min (Stress), {spikeTestDurationNum}min (Spike)
                       </li>
                       <li>
                         <span className="font-semibold">Target:</span> Los VUs calculados según el tipo de prueba
