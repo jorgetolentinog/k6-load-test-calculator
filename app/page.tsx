@@ -321,6 +321,52 @@ export default function () {
           </div>
         </div>
 
+        {/* Explicación RPS */}
+        <div className="mt-8 bg-blue-50 rounded-xl p-6 border border-blue-200">
+          <h3 className="text-xl font-semibold text-gray-900 mb-3">
+            💡 ¿Qué es el RPS Esperado?
+          </h3>
+          <div className="space-y-3 text-gray-700 text-sm">
+            <p>
+              <span className="font-semibold">RPS (Requests Per Second)</span> es la tasa de peticiones por segundo que tu prueba debe generar. Es una métrica clave para validar que tu configuración de K6 está generando la carga correcta.
+            </p>
+
+            <div className="bg-white rounded-lg p-4 border border-blue-200">
+              <p className="font-semibold text-gray-900 mb-2">Cómo verificarlo durante la prueba:</p>
+              <ol className="list-decimal list-inside space-y-1 ml-2">
+                <li>
+                  Ejecuta tu prueba de K6 y observa la métrica <code className="bg-gray-200 px-1 rounded text-xs">http_reqs</code> en la salida
+                </li>
+                <li>
+                  K6 mostrará algo como: <code className="bg-gray-200 px-1 rounded text-xs">http_reqs....: 165 {requestsPerSecond.toFixed(2)}/s</code>
+                </li>
+                <li>
+                  El segundo número ({requestsPerSecond.toFixed(2)}/s) debe coincidir aproximadamente con el "RPS Esperado" mostrado arriba
+                </li>
+              </ol>
+            </div>
+
+            <div className="bg-white rounded-lg p-4 border border-blue-200">
+              <p className="font-semibold text-gray-900 mb-2">¿Por qué es importante?</p>
+              <ul className="list-disc list-inside space-y-1 ml-2">
+                <li>
+                  Si el RPS real es menor al esperado, tu sistema está respondiendo lento y K6 no puede generar suficientes peticiones
+                </li>
+                <li>
+                  Si el RPS real coincide con el esperado, tu configuración de VUs es correcta
+                </li>
+                <li>
+                  Puedes usar el RPS para comparar directamente con las métricas de tu sistema de producción
+                </li>
+              </ul>
+            </div>
+
+            <p className="text-gray-900 font-semibold">
+              📊 Ejemplo: Si tu Load Test muestra "RPS Esperado: {requestsPerSecond.toFixed(2)}", al ejecutar K6 deberías ver aproximadamente {requestsPerSecond.toFixed(2)} req/s en las métricas de salida.
+            </p>
+          </div>
+        </div>
+
         {/* Recomendaciones */}
         <div className="mt-8 bg-white rounded-xl shadow-sm p-6 border border-gray-200">
           <h3 className="text-xl font-semibold text-gray-900 mb-3">
@@ -332,6 +378,7 @@ export default function () {
             <li>• Stress Test te ayudará a encontrar el punto de quiebre del sistema</li>
             <li>• Spike Test valida la capacidad de recuperación ante picos súbitos</li>
             <li>• Monitorea CPU, memoria y conexiones de BD durante las pruebas</li>
+            <li>• Compara el RPS real de K6 con el RPS esperado para validar que la configuración es correcta</li>
             <li>• Considera hacer pruebas en horarios de baja actividad en producción</li>
           </ul>
         </div>
