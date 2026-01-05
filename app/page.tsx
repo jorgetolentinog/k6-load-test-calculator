@@ -63,12 +63,18 @@ function RPSTooltip() {
 }
 
 export default function Home() {
-  const [peakHourRequests, setPeakHourRequests] = useState('1989');
+  const [requests, setRequests] = useState('1989');
+  const [timeUnit, setTimeUnit] = useState<'second' | 'hour' | 'day'>('hour');
   const [avgResponseTime, setAvgResponseTime] = useState('200');
   const [stressMultiplier, setStressMultiplier] = useState('1.5');
 
   // Cálculos
-  const requestsPerSecond = parseFloat(peakHourRequests) / 3600;
+  const requestsValue = parseFloat(requests);
+  const requestsPerSecond =
+    timeUnit === 'second' ? requestsValue :
+    timeUnit === 'hour' ? requestsValue / 3600 :
+    requestsValue / 86400; // día = 86400 segundos
+
   const avgRespTimeSec = parseFloat(avgResponseTime) / 1000;
 
   // VUs = (requests/sec) * (avg response time in seconds)
@@ -108,16 +114,27 @@ export default function Home() {
               <div className="space-y-6">
                 <div>
                   <label className="block text-gray-700 mb-2 text-sm font-medium">
-                    Peak Hour Requests
+                    Requests
                   </label>
-                  <input
-                    type="number"
-                    value={peakHourRequests}
-                    onChange={(e) => setPeakHourRequests(e.target.value)}
-                    className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
+                  <div className="flex gap-2">
+                    <input
+                      type="number"
+                      value={requests}
+                      onChange={(e) => setRequests(e.target.value)}
+                      className="flex-1 bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    />
+                    <select
+                      value={timeUnit}
+                      onChange={(e) => setTimeUnit(e.target.value as 'second' | 'hour' | 'day')}
+                      className="bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    >
+                      <option value="second">por segundo</option>
+                      <option value="hour">por hora</option>
+                      <option value="day">por día</option>
+                    </select>
+                  </div>
                   <p className="text-xs text-gray-500 mt-1">
-                    Peticiones totales en la hora pico
+                    Número de peticiones en el período de tiempo seleccionado
                   </p>
                 </div>
 
@@ -262,7 +279,7 @@ export default function Home() {
                 <p className="text-gray-700 text-xs">
                   <span className="font-semibold">Cálculo:</span> {requestsPerSecond.toFixed(2)} req/s × {avgRespTimeSec.toFixed(3)}s = {baseVUs} VUs
                   <br />
-                  <span className="font-semibold">Objetivo:</span> Simular la carga exacta del peak hour ({peakHourRequests} req/hora) para verificar que el servicio migrado soporta la misma carga de producción.
+                  <span className="font-semibold">Objetivo:</span> Simular la carga especificada ({requests} req/{timeUnit === 'second' ? 'segundo' : timeUnit === 'hour' ? 'hora' : 'día'}) para verificar que el servicio soporta la carga de producción esperada.
                 </p>
               </div>
             </div>
@@ -420,7 +437,6 @@ export default function () {
                 <li>• Spike Test valida la capacidad de recuperación ante picos súbitos</li>
                 <li>• Monitorea CPU, memoria y conexiones de BD durante las pruebas</li>
                 <li>• Observa el RPS real de K6 (pasa el mouse sobre el ícono ⓘ para más info)</li>
-                <li>• Considera hacer pruebas en horarios de baja actividad</li>
               </ul>
             </div>
           </div>
