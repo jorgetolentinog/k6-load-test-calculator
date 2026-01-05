@@ -397,6 +397,94 @@ export default function () {
 }`}</code>
               </pre>
 
+              {/* Explicación de Stages (Fases) */}
+              <div className="mt-4 bg-purple-50 rounded-lg p-4 border border-purple-200">
+                <h4 className="text-gray-900 font-semibold text-sm mb-2">
+                  📊 ¿Cómo se calculan los valores de Ramp-up, Stay y Ramp-down?
+                </h4>
+                <div className="text-gray-700 text-xs space-y-3">
+                  <p>
+                    Las <span className="font-semibold">fases (stages)</span> controlan cómo evoluciona la carga durante la prueba. Los valores sugeridos dependen del tipo de prueba y tus objetivos:
+                  </p>
+
+                  <div className="bg-white rounded p-3 border border-purple-300">
+                    <p className="font-semibold text-gray-900 mb-1">1️⃣ Ramp-up (Arranque gradual)</p>
+                    <ul className="list-disc list-inside space-y-1 ml-2">
+                      <li>
+                        <span className="font-semibold">Duración sugerida:</span> 2-5 minutos para Load/Stress Test, 30-60s para Spike Test
+                      </li>
+                      <li>
+                        <span className="font-semibold">Target:</span> 50-70% de los VUs finales (ej: {Math.ceil(baseVUs * 0.5)} VUs para llegar a {baseVUs} VUs)
+                      </li>
+                      <li>
+                        <span className="font-semibold">Por qué:</span> Evita sobrecargar el sistema de golpe. Permite que auto-scalers, caches y conexiones se inicialicen gradualmente.
+                      </li>
+                      <li>
+                        <span className="font-semibold">Ajusta si:</span> Tu sistema tiene auto-scaling (aumenta a 5-10m), o si usas CDN/cache (1-2m puede ser suficiente).
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-white rounded p-3 border border-purple-300">
+                    <p className="font-semibold text-gray-900 mb-1">2️⃣ Stay (Permanencia en pico)</p>
+                    <ul className="list-disc list-inside space-y-1 ml-2">
+                      <li>
+                        <span className="font-semibold">Duración sugerida:</span> {loadTestDuration}min (Load Test), {stressTestDuration}min (Stress), {spikeTestDuration}min (Spike)
+                      </li>
+                      <li>
+                        <span className="font-semibold">Target:</span> Los VUs calculados según el tipo de prueba
+                      </li>
+                      <li>
+                        <span className="font-semibold">Por qué:</span> Necesitas tiempo suficiente para que las métricas se estabilicen y detectar memory leaks, degradación progresiva o problemas de recursos.
+                      </li>
+                      <li>
+                        <span className="font-semibold">Ajusta si:</span> Sospechas memory leaks (aumenta a 45-60m), pruebas de endurance (varias horas), o solo verificación rápida (5-10m).
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-white rounded p-3 border border-purple-300">
+                    <p className="font-semibold text-gray-900 mb-1">3️⃣ Ramp-down (Descenso gradual)</p>
+                    <ul className="list-disc list-inside space-y-1 ml-2">
+                      <li>
+                        <span className="font-semibold">Duración sugerida:</span> 2-3 minutos
+                      </li>
+                      <li>
+                        <span className="font-semibold">Target:</span> 0 VUs (detener la carga gradualmente)
+                      </li>
+                      <li>
+                        <span className="font-semibold">Por qué:</span> Evita cortar conexiones abruptamente. Permite observar cómo se recupera el sistema cuando la carga disminuye.
+                      </li>
+                      <li>
+                        <span className="font-semibold">Ajusta si:</span> Quieres observar recuperación del sistema (aumenta a 5-10m), o si no te importa la recuperación (puedes usar 30s-1m).
+                      </li>
+                    </ul>
+                  </div>
+
+                  <div className="bg-purple-100 rounded p-3 border border-purple-400 mt-2">
+                    <p className="font-semibold text-gray-900 mb-1">🎯 Regla general:</p>
+                    <ul className="list-disc list-inside space-y-1 ml-2">
+                      <li>
+                        <span className="font-semibold">Sistemas con auto-scaling:</span> Ramp-up más largo (5-10m) para dar tiempo a escalar
+                      </li>
+                      <li>
+                        <span className="font-semibold">Sistemas sin auto-scaling:</span> Ramp-up estándar (2-3m)
+                      </li>
+                      <li>
+                        <span className="font-semibold">Spike Tests:</span> Ramp-up muy corto (30-60s) para simular picos súbitos reales
+                      </li>
+                      <li>
+                        <span className="font-semibold">Endurance Tests:</span> Stay prolongado (2-8 horas) para detectar memory leaks
+                      </li>
+                    </ul>
+                  </div>
+
+                  <p className="text-gray-900 font-semibold mt-2 bg-purple-100 p-2 rounded border border-purple-300">
+                    💡 Los valores en el script son <span className="underline">sugerencias iniciales</span>. Ajústalos según la arquitectura de tu sistema, tipo de prueba y tiempo disponible para ejecutarla.
+                  </p>
+                </div>
+              </div>
+
               {/* Explicación de Thresholds */}
               <div className="mt-4 bg-yellow-50 rounded-lg p-4 border border-yellow-200">
                 <h4 className="text-gray-900 font-semibold text-sm mb-2">
