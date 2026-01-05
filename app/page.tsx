@@ -267,11 +267,17 @@ export default function Home() {
                   <div className="text-2xl font-bold text-gray-900">
                     {Math.ceil(baseVUs * 0.1)}
                   </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    VUs base × 10%
+                  </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Duración</div>
                   <div className="text-2xl font-bold text-gray-900">
                     {smokeTestDurationNum}m
+                  </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    Configurado
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -282,11 +288,17 @@ export default function Home() {
                   <div className="text-2xl font-bold text-gray-900">
                     {(requestsPerSecond * 0.1).toFixed(2)}
                   </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    RPS base × 10%
+                  </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Total Requests</div>
                   <div className="text-2xl font-bold text-gray-900">
                     {Math.ceil(requestsPerSecond * 0.1 * smokeTestDurationNum * 60)}
+                  </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    RPS × Duración × 60s
                   </div>
                 </div>
               </div>
@@ -329,11 +341,17 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
                   <div className="text-2xl font-bold text-gray-900">{baseVUs}</div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    RPS Base
+                  </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Duración</div>
                   <div className="text-2xl font-bold text-gray-900">
                     {loadTestDurationNum}m
+                  </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    Configurado
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -344,11 +362,17 @@ export default function Home() {
                   <div className="text-2xl font-bold text-gray-900">
                     {requestsPerSecond.toFixed(2)}
                   </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    RPS base
+                  </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Total Requests</div>
                   <div className="text-2xl font-bold text-gray-900">
                     {Math.ceil(requestsPerSecond * loadTestDurationNum * 60)}
+                  </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    RPS × Duración × 60s
                   </div>
                 </div>
               </div>
@@ -410,11 +434,17 @@ export default function Home() {
                   <div className="text-2xl font-bold text-gray-900">
                     {stressVUs}
                   </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    RPS × Tiempo Resp.
+                  </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Duración</div>
                   <div className="text-2xl font-bold text-gray-900">
                     {stressTestDurationNum}m
+                  </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    Configurado
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -425,11 +455,17 @@ export default function Home() {
                   <div className="text-2xl font-bold text-gray-900">
                     {stressRPS.toFixed(2)}
                   </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    RPS base × Multiplicador
+                  </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Total Requests</div>
                   <div className="text-2xl font-bold text-gray-900">
                     {Math.ceil(stressRPS * stressTestDurationNum * 60)}
+                  </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    RPS × Duración × 60s
                   </div>
                 </div>
               </div>
@@ -474,11 +510,17 @@ export default function Home() {
                   <div className="text-2xl font-bold text-gray-900">
                     {baseVUs * 2}
                   </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    VUs base × 2
+                  </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Duración</div>
                   <div className="text-2xl font-bold text-gray-900">
                     {spikeTestDurationNum}m
+                  </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    Configurado
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -489,11 +531,17 @@ export default function Home() {
                   <div className="text-2xl font-bold text-gray-900">
                     {(requestsPerSecond * 2).toFixed(2)}
                   </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    RPS base × 2
+                  </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Total Requests</div>
                   <div className="text-2xl font-bold text-gray-900">
                     {Math.ceil(requestsPerSecond * 2 * spikeTestDurationNum * 60)}
+                  </div>
+                  <div className="text-gray-500 text-[10px] mt-1">
+                    RPS × Duración × 60s
                   </div>
                 </div>
               </div>
