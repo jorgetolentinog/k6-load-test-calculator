@@ -398,16 +398,17 @@ export default function () {
               </pre>
 
               {/* Explicación de Stages (Fases) */}
-              <details className="mt-4 bg-blue-50 rounded-lg p-4 border border-blue-200">
-                <summary className="text-gray-900 font-semibold text-sm mb-2 cursor-pointer hover:text-blue-700 transition-colors">
-                  📊 ¿Cómo se calculan los valores de Ramp-up, Stay y Ramp-down?
+              <details className="mt-4 bg-gray-50 rounded-lg p-4 border border-gray-300">
+                <summary className="text-gray-900 font-semibold text-sm cursor-pointer hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <span className="text-base">⏱️</span>
+                  <span>Cálculo de Fases: Ramp-up, Stay y Ramp-down</span>
                 </summary>
                 <div className="text-gray-700 text-xs space-y-3 mt-3">
                   <p>
                     Las <span className="font-semibold">fases (stages)</span> controlan cómo evoluciona la carga durante la prueba. Los valores sugeridos dependen del tipo de prueba y tus objetivos:
                   </p>
 
-                  <div className="bg-white rounded p-3 border border-blue-300">
+                  <div className="bg-white rounded p-3 border border-gray-300">
                     <p className="font-semibold text-gray-900 mb-1">1️⃣ Ramp-up (Arranque gradual)</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>
@@ -425,7 +426,7 @@ export default function () {
                     </ul>
                   </div>
 
-                  <div className="bg-white rounded p-3 border border-blue-300">
+                  <div className="bg-white rounded p-3 border border-gray-300">
                     <p className="font-semibold text-gray-900 mb-1">2️⃣ Stay (Permanencia en pico)</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>
@@ -443,7 +444,7 @@ export default function () {
                     </ul>
                   </div>
 
-                  <div className="bg-white rounded p-3 border border-blue-300">
+                  <div className="bg-white rounded p-3 border border-gray-300">
                     <p className="font-semibold text-gray-900 mb-1">3️⃣ Ramp-down (Descenso gradual)</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>
@@ -461,7 +462,7 @@ export default function () {
                     </ul>
                   </div>
 
-                  <div className="bg-blue-100 rounded p-3 border border-blue-400 mt-2">
+                  <div className="bg-gray-100 rounded p-3 border border-gray-400 mt-2">
                     <p className="font-semibold text-gray-900 mb-1">🎯 Regla general:</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>
@@ -479,16 +480,17 @@ export default function () {
                     </ul>
                   </div>
 
-                  <p className="text-gray-900 font-semibold mt-2 bg-blue-100 p-2 rounded border border-blue-300">
+                  <p className="text-gray-900 font-semibold mt-2 bg-gray-100 p-2 rounded border border-gray-400">
                     💡 Los valores en el script son <span className="underline">sugerencias iniciales</span>. Ajústalos según la arquitectura de tu sistema, tipo de prueba y tiempo disponible para ejecutarla.
                   </p>
                 </div>
               </details>
 
               {/* Explicación de Thresholds */}
-              <details className="mt-4 bg-blue-50 rounded-lg p-4 border border-blue-200">
-                <summary className="text-gray-900 font-semibold text-sm mb-2 cursor-pointer hover:text-blue-700 transition-colors">
-                  ⚠️ Sobre los Thresholds (Umbrales)
+              <details className="mt-4 bg-gray-50 rounded-lg p-4 border border-gray-300">
+                <summary className="text-gray-900 font-semibold text-sm cursor-pointer hover:text-blue-600 transition-colors flex items-center gap-2">
+                  <span className="text-base">🎯</span>
+                  <span>Configuración de Thresholds (Umbrales)</span>
                 </summary>
                 <div className="text-gray-700 text-xs space-y-2 mt-3">
                   <p>
