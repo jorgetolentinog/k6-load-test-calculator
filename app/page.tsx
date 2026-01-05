@@ -315,7 +315,7 @@ export default function () {
                 </li>
               </ul>
               <p className="text-gray-900 font-semibold mt-2">
-                💡 Recomendación: Mide primero el rendimiento actual de producción y establece thresholds basados en esos datos reales, no en estimaciones.
+                💡 Mide primero el rendimiento actual de producción y establece thresholds basados en esos datos reales, no en estimaciones.
               </p>
             </div>
           </div>
