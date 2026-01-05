@@ -9,7 +9,6 @@ export default function Home() {
 
   // Cálculos
   const requestsPerSecond = parseFloat(peakHourRequests) / 3600;
-  const requestsPerMinute = parseFloat(peakHourRequests) / 60;
   const avgRespTimeSec = parseFloat(avgResponseTime) / 1000;
 
   // VUs = (requests/sec) * (avg response time in seconds)
@@ -110,39 +109,6 @@ export default function Home() {
             Los VUs (Virtual Users) representan cuántos usuarios simulados necesitas para generar la carga deseada,
             considerando que cada usuario espera el tiempo de respuesta antes de hacer otra petición.
           </p>
-        </div>
-
-        {/* Métricas Calculadas */}
-        <div className="grid md:grid-cols-3 gap-4 mb-8">
-          <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 backdrop-blur-lg rounded-xl p-6 border border-blue-400/30">
-            <div className="text-blue-200 text-sm mb-1">Requests/Segundo</div>
-            <div className="text-3xl font-bold text-white">
-              {requestsPerSecond.toFixed(2)}
-            </div>
-            <div className="text-blue-300 text-xs mt-2">
-              {peakHourRequests} ÷ 3600
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-green-500/20 to-green-600/20 backdrop-blur-lg rounded-xl p-6 border border-green-400/30">
-            <div className="text-green-200 text-sm mb-1">Requests/Minuto</div>
-            <div className="text-3xl font-bold text-white">
-              {requestsPerMinute.toFixed(0)}
-            </div>
-            <div className="text-green-300 text-xs mt-2">
-              {peakHourRequests} ÷ 60
-            </div>
-          </div>
-
-          <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 backdrop-blur-lg rounded-xl p-6 border border-purple-400/30">
-            <div className="text-purple-200 text-sm mb-1">VUs Base</div>
-            <div className="text-3xl font-bold text-white">
-              {baseVUs}
-            </div>
-            <div className="text-purple-300 text-xs mt-2">
-              {requestsPerSecond.toFixed(2)} × {avgRespTimeSec.toFixed(3)}s
-            </div>
-          </div>
         </div>
 
         {/* Configuraciones de Prueba */}
