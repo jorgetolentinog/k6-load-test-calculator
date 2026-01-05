@@ -82,12 +82,45 @@ export default function Home() {
           </div>
         </div>
 
+        {/* Fórmula de Cálculo */}
+        <div className="bg-gradient-to-r from-indigo-500/20 to-purple-500/20 backdrop-blur-lg rounded-xl p-6 mb-6 border border-indigo-400/30">
+          <h2 className="text-xl font-semibold text-white mb-3">
+            📐 Fórmula de Cálculo
+          </h2>
+          <div className="bg-black/20 rounded-lg p-4 mb-4">
+            <code className="text-green-400 text-sm">
+              VUs = (Requests/Segundo) × (Tiempo de Respuesta en segundos)
+            </code>
+          </div>
+          <div className="grid md:grid-cols-3 gap-4 text-sm">
+            <div className="bg-white/5 rounded-lg p-3">
+              <div className="text-gray-300 mb-1">Peak Hour Requests</div>
+              <div className="text-white font-semibold">{peakHourRequests} req/hora</div>
+            </div>
+            <div className="bg-white/5 rounded-lg p-3">
+              <div className="text-gray-300 mb-1">÷ 3600 segundos</div>
+              <div className="text-white font-semibold">= {requestsPerSecond.toFixed(2)} req/seg</div>
+            </div>
+            <div className="bg-white/5 rounded-lg p-3">
+              <div className="text-gray-300 mb-1">× {avgRespTimeSec.toFixed(3)}s respuesta</div>
+              <div className="text-white font-semibold">= {baseVUs} VUs</div>
+            </div>
+          </div>
+          <p className="text-purple-200 text-xs mt-3">
+            Los VUs (Virtual Users) representan cuántos usuarios simulados necesitas para generar la carga deseada,
+            considerando que cada usuario espera el tiempo de respuesta antes de hacer otra petición.
+          </p>
+        </div>
+
         {/* Métricas Calculadas */}
         <div className="grid md:grid-cols-3 gap-4 mb-8">
           <div className="bg-gradient-to-br from-blue-500/20 to-blue-600/20 backdrop-blur-lg rounded-xl p-6 border border-blue-400/30">
             <div className="text-blue-200 text-sm mb-1">Requests/Segundo</div>
             <div className="text-3xl font-bold text-white">
               {requestsPerSecond.toFixed(2)}
+            </div>
+            <div className="text-blue-300 text-xs mt-2">
+              {peakHourRequests} ÷ 3600
             </div>
           </div>
 
@@ -96,12 +129,18 @@ export default function Home() {
             <div className="text-3xl font-bold text-white">
               {requestsPerMinute.toFixed(0)}
             </div>
+            <div className="text-green-300 text-xs mt-2">
+              {peakHourRequests} ÷ 60
+            </div>
           </div>
 
           <div className="bg-gradient-to-br from-purple-500/20 to-purple-600/20 backdrop-blur-lg rounded-xl p-6 border border-purple-400/30">
             <div className="text-purple-200 text-sm mb-1">VUs Base</div>
             <div className="text-3xl font-bold text-white">
               {baseVUs}
+            </div>
+            <div className="text-purple-300 text-xs mt-2">
+              {requestsPerSecond.toFixed(2)} × {avgRespTimeSec.toFixed(3)}s
             </div>
           </div>
         </div>
@@ -116,7 +155,7 @@ export default function Home() {
             <p className="text-purple-200 text-sm mb-4">
               Verificación básica de funcionalidad con carga mínima
             </p>
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-4 mb-4">
               <div className="bg-white/5 rounded-lg p-4">
                 <div className="text-gray-300 text-xs mb-1">VUs</div>
                 <div className="text-2xl font-bold text-white">
@@ -136,6 +175,13 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            <div className="bg-blue-500/10 rounded-lg p-3 border border-blue-500/20">
+              <p className="text-blue-200 text-xs">
+                <span className="font-semibold">Cálculo:</span> {baseVUs} VUs base × 10% = {Math.ceil(baseVUs * 0.1)} VUs
+                <br />
+                <span className="font-semibold">Objetivo:</span> Verificar que el sistema funciona correctamente con carga muy baja antes de pruebas más intensivas.
+              </p>
+            </div>
           </div>
 
           {/* Load Test */}
@@ -146,7 +192,7 @@ export default function Home() {
             <p className="text-purple-200 text-sm mb-4">
               Prueba con la carga esperada en producción
             </p>
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-4 mb-4">
               <div className="bg-white/5 rounded-lg p-4">
                 <div className="text-gray-300 text-xs mb-1">VUs</div>
                 <div className="text-2xl font-bold text-white">{baseVUs}</div>
@@ -164,6 +210,13 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            <div className="bg-green-500/10 rounded-lg p-3 border border-green-500/20">
+              <p className="text-green-200 text-xs">
+                <span className="font-semibold">Cálculo:</span> {requestsPerSecond.toFixed(2)} req/s × {avgRespTimeSec.toFixed(3)}s = {baseVUs} VUs
+                <br />
+                <span className="font-semibold">Objetivo:</span> Simular la carga exacta del peak hour ({peakHourRequests} req/hora) para verificar que el servicio migrado soporta la misma carga de producción.
+              </p>
+            </div>
           </div>
 
           {/* Stress Test */}
@@ -174,7 +227,7 @@ export default function Home() {
             <p className="text-orange-200 text-sm mb-4">
               Prueba excediendo la carga normal para encontrar límites
             </p>
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-4 mb-4">
               <div className="bg-white/10 rounded-lg p-4">
                 <div className="text-gray-300 text-xs mb-1">VUs</div>
                 <div className="text-2xl font-bold text-white">
@@ -194,6 +247,13 @@ export default function Home() {
                 </div>
               </div>
             </div>
+            <div className="bg-orange-500/10 rounded-lg p-3 border border-orange-500/20">
+              <p className="text-orange-200 text-xs">
+                <span className="font-semibold">Cálculo:</span> {requestsPerSecond.toFixed(2)} req/s × {stressMult} (multiplicador) = {stressRPS.toFixed(2)} req/s → {stressRPS.toFixed(2)} × {avgRespTimeSec.toFixed(3)}s = {stressVUs} VUs
+                <br />
+                <span className="font-semibold">Objetivo:</span> Aplicar {(stressMult * 100).toFixed(0)}% de la carga normal para estresar el sistema más allá de lo esperado y encontrar su punto de quiebre o degradación.
+              </p>
+            </div>
           </div>
 
           {/* Spike Test */}
@@ -204,7 +264,7 @@ export default function Home() {
             <p className="text-red-200 text-sm mb-4">
               Picos repentinos de tráfico (2x la carga normal)
             </p>
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-4 mb-4">
               <div className="bg-white/10 rounded-lg p-4">
                 <div className="text-gray-300 text-xs mb-1">VUs</div>
                 <div className="text-2xl font-bold text-white">
@@ -223,6 +283,13 @@ export default function Home() {
                   {(requestsPerSecond * 2).toFixed(2)}
                 </div>
               </div>
+            </div>
+            <div className="bg-red-500/10 rounded-lg p-3 border border-red-500/20">
+              <p className="text-red-200 text-xs">
+                <span className="font-semibold">Cálculo:</span> {baseVUs} VUs base × 2 = {baseVUs * 2} VUs (equivalente a {(requestsPerSecond * 2).toFixed(2)} req/s)
+                <br />
+                <span className="font-semibold">Objetivo:</span> Simular un pico súbito de tráfico (200% de la carga normal) para verificar que el sistema puede manejar incrementos abruptos y recuperarse sin caídas.
+              </p>
             </div>
           </div>
         </div>
