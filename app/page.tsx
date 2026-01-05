@@ -3,7 +3,6 @@
 import { useState } from 'react';
 
 export default function Home() {
-  const [dailyRequests, setDailyRequests] = useState('25995');
   const [peakHourRequests, setPeakHourRequests] = useState('1989');
   const [avgResponseTime, setAvgResponseTime] = useState('200');
   const [stressMultiplier, setStressMultiplier] = useState('1.5');
@@ -43,19 +42,7 @@ export default function Home() {
             Parámetros de Entrada
           </h2>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            <div>
-              <label className="block text-purple-200 mb-2 text-sm">
-                Requests por Día
-              </label>
-              <input
-                type="number"
-                value={dailyRequests}
-                onChange={(e) => setDailyRequests(e.target.value)}
-                className="w-full bg-white/5 border border-white/20 rounded-lg px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-purple-500"
-              />
-            </div>
-
+          <div className="grid md:grid-cols-3 gap-6">
             <div>
               <label className="block text-purple-200 mb-2 text-sm">
                 Peak Hour Requests
