@@ -292,6 +292,33 @@ export default function () {
   sleep(1);
 }`}</code>
           </pre>
+
+          {/* Explicación de Thresholds */}
+          <div className="mt-4 bg-yellow-500/10 rounded-lg p-4 border border-yellow-500/20">
+            <h4 className="text-yellow-200 font-semibold text-sm mb-2">
+              ⚠️ Sobre los Thresholds (Umbrales)
+            </h4>
+            <div className="text-yellow-100 text-xs space-y-2">
+              <p>
+                Los thresholds son <span className="font-semibold">valores sugeridos</span> basados en buenas prácticas, NO son deterministas. Debes ajustarlos según tus requisitos específicos:
+              </p>
+              <ul className="list-disc list-inside space-y-1 ml-2">
+                <li>
+                  <code className="bg-black/30 px-1 rounded">p(95)&lt;{(parseFloat(avgResponseTime) * 1.5).toFixed(0)}ms</code>:
+                  Sugerencia de que el 95% de las peticiones respondan en menos de 1.5× tu tiempo promedio actual ({avgResponseTime}ms).
+                  Ajusta según tus SLAs.
+                </li>
+                <li>
+                  <code className="bg-black/30 px-1 rounded">rate&lt;0.01</code>:
+                  Sugerencia de que menos del 1% de las peticiones fallen.
+                  Para sistemas críticos podrías usar 0.001 (0.1%) o menos.
+                </li>
+              </ul>
+              <p className="text-yellow-200 font-semibold mt-2">
+                💡 Recomendación: Mide primero el rendimiento actual de producción y establece thresholds basados en esos datos reales, no en estimaciones.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Recomendaciones */}
