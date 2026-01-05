@@ -254,7 +254,7 @@ export default function Home() {
               <p className="text-gray-600 text-sm mb-4">
                 Verificación básica de funcionalidad con carga mínima
               </p>
-              <div className="grid grid-cols-3 gap-3 mb-4">
+              <div className="grid grid-cols-4 gap-3 mb-4">
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
                   <div className="text-2xl font-bold text-gray-900">
@@ -276,6 +276,12 @@ export default function Home() {
                     {(requestsPerSecond * 0.1).toFixed(2)}
                   </div>
                 </div>
+                <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                  <div className="text-gray-600 text-xs mb-1">Total Requests</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {Math.ceil(requestsPerSecond * 0.1 * smokeTestDuration * 60)}
+                  </div>
+                </div>
               </div>
               <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
                 <p className="text-gray-700 text-xs">
@@ -294,7 +300,7 @@ export default function Home() {
               <p className="text-gray-600 text-sm mb-4">
                 Prueba con la carga esperada en producción
               </p>
-              <div className="grid grid-cols-3 gap-3 mb-4">
+              <div className="grid grid-cols-4 gap-3 mb-4">
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
                   <div className="text-2xl font-bold text-gray-900">{baseVUs}</div>
@@ -312,6 +318,12 @@ export default function Home() {
                   </div>
                   <div className="text-2xl font-bold text-gray-900">
                     {requestsPerSecond.toFixed(2)}
+                  </div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                  <div className="text-gray-600 text-xs mb-1">Total Requests</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {Math.ceil(requestsPerSecond * loadTestDuration * 60)}
                   </div>
                 </div>
               </div>
@@ -332,7 +344,7 @@ export default function Home() {
               <p className="text-gray-600 text-sm mb-4">
                 Prueba excediendo la carga normal para encontrar límites
               </p>
-              <div className="grid grid-cols-3 gap-3 mb-4">
+              <div className="grid grid-cols-4 gap-3 mb-4">
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
                   <div className="text-2xl font-bold text-gray-900">
@@ -354,6 +366,12 @@ export default function Home() {
                     {stressRPS.toFixed(2)}
                   </div>
                 </div>
+                <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                  <div className="text-gray-600 text-xs mb-1">Total Requests</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {Math.ceil(stressRPS * stressTestDuration * 60)}
+                  </div>
+                </div>
               </div>
               <div className="bg-orange-50 rounded-lg p-3 border border-orange-200">
                 <p className="text-gray-700 text-xs">
@@ -372,7 +390,7 @@ export default function Home() {
               <p className="text-gray-600 text-sm mb-4">
                 Picos repentinos de tráfico (2x la carga normal)
               </p>
-              <div className="grid grid-cols-3 gap-3 mb-4">
+              <div className="grid grid-cols-4 gap-3 mb-4">
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
                   <div className="text-2xl font-bold text-gray-900">
@@ -392,6 +410,12 @@ export default function Home() {
                   </div>
                   <div className="text-2xl font-bold text-gray-900">
                     {(requestsPerSecond * 2).toFixed(2)}
+                  </div>
+                </div>
+                <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
+                  <div className="text-gray-600 text-xs mb-1">Total Requests</div>
+                  <div className="text-2xl font-bold text-gray-900">
+                    {Math.ceil(requestsPerSecond * 2 * spikeTestDuration * 60)}
                   </div>
                 </div>
               </div>
