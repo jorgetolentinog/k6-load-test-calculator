@@ -1,11 +1,40 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
 // Componente Tooltip para RPS
 function RPSTooltip() {
+  const [showAbove, setShowAbove] = useState(true);
+  const triggerRef = useRef<HTMLDivElement>(null);
+  const tooltipRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleMouseEnter = () => {
+      if (triggerRef.current && tooltipRef.current) {
+        const triggerRect = triggerRef.current.getBoundingClientRect();
+        const tooltipHeight = tooltipRef.current.offsetHeight;
+        const spaceAbove = triggerRect.top;
+        const spaceBelow = window.innerHeight - triggerRect.bottom;
+
+        // Si no hay suficiente espacio arriba (necesitamos al menos tooltipHeight + margen)
+        // y hay más espacio abajo, mostramos abajo
+        if (spaceAbove < tooltipHeight + 20 && spaceBelow > spaceAbove) {
+          setShowAbove(false);
+        } else {
+          setShowAbove(true);
+        }
+      }
+    };
+
+    const trigger = triggerRef.current;
+    if (trigger) {
+      trigger.addEventListener('mouseenter', handleMouseEnter);
+      return () => trigger.removeEventListener('mouseenter', handleMouseEnter);
+    }
+  }, []);
+
   return (
-    <div className="group relative inline-block">
+    <div ref={triggerRef} className="group relative inline-block">
       <svg
         className="w-4 h-4 text-gray-400 hover:text-gray-600 cursor-help inline-block ml-1"
         fill="none"
@@ -19,8 +48,19 @@ function RPSTooltip() {
           d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
         />
       </svg>
-      <div className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity absolute z-10 w-96 px-5 py-4 text-xs text-gray-700 bg-white border border-gray-200 rounded-lg shadow-xl bottom-full left-1/2 -translate-x-1/2 mb-2 pointer-events-none">
-        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-1/2 rotate-45 w-2 h-2 bg-white border-r border-b border-gray-200"></div>
+      <div 
+        ref={tooltipRef}
+        className={`invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-opacity absolute z-10 w-96 px-5 py-4 text-xs text-gray-700 bg-white border border-gray-200 rounded-lg shadow-xl left-1/2 -translate-x-1/2 pointer-events-none ${
+          showAbove 
+            ? 'bottom-full mb-2' 
+            : 'top-full mt-2'
+        }`}
+      >
+        <div className={`absolute left-1/2 -translate-x-1/2 rotate-45 w-2 h-2 bg-white border-gray-200 ${
+          showAbove 
+            ? 'bottom-0 translate-y-1/2 border-r border-b' 
+            : 'top-0 -translate-y-1/2 border-l border-t'
+        }`}></div>
 
         <h4 className="font-bold text-gray-900 mb-3 text-sm">RPS - Requests Per Second</h4>
 
