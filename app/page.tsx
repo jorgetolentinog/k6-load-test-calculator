@@ -192,22 +192,6 @@ export default function Home() {
                     Tiempo de respuesta actual del servicio
                   </p>
                 </div>
-
-                <div>
-                  <label className="block text-gray-700 mb-2 text-sm font-medium">
-                    Multiplicador de Estrés
-                  </label>
-                  <input
-                    type="number"
-                    step="0.1"
-                    value={stressMultiplier}
-                    onChange={(e) => setStressMultiplier(e.target.value)}
-                    className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                  />
-                  <p className="text-xs text-gray-500 mt-1">
-                    Ej: 1.5 = 150% de carga
-                  </p>
-                </div>
               </div>
 
               {/* Usuarios virtuales calculados */}
@@ -344,6 +328,24 @@ export default function Home() {
               <p className="text-gray-600 text-sm mb-4">
                 Prueba excediendo la carga normal para encontrar límites
               </p>
+
+              {/* Multiplicador de Estrés */}
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2 text-sm font-medium">
+                  Multiplicador de Estrés
+                </label>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={stressMultiplier}
+                  onChange={(e) => setStressMultiplier(e.target.value)}
+                  className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Ej: 1.5 = 150% de carga
+                </p>
+              </div>
+
               <div className="grid grid-cols-4 gap-3 mb-4">
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
