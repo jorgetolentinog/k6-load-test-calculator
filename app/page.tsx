@@ -107,6 +107,7 @@ export default function Home() {
   const [timeUnit, setTimeUnit] = useState<'second' | 'hour' | 'day'>('hour');
   const [avgResponseTime, setAvgResponseTime] = useState('200');
   const [stressMultiplier, setStressMultiplier] = useState('1.5');
+  const [spikeMultiplier, setSpikeMultiplier] = useState('2');
 
   // Duraciones editables de pruebas (valores por defecto recomendados)
   const [smokeTestDuration, setSmokeTestDuration] = useState('5');
@@ -130,6 +131,11 @@ export default function Home() {
   const stressMult = parseFloat(stressMultiplier);
   const stressRPS = requestsPerSecond * stressMult;
   const stressVUs = Math.ceil(stressRPS * avgRespTimeSec);
+
+  // Para pruebas de pico (spike)
+  const spikeMult = parseFloat(spikeMultiplier);
+  const spikeRPS = requestsPerSecond * spikeMult;
+  const spikeVUs = Math.ceil(spikeRPS * avgRespTimeSec);
 
   // Convertir duraciones a números
   const smokeTestDurationNum = parseFloat(smokeTestDuration) || 5;
@@ -302,12 +308,33 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="bg-blue-50 rounded-lg p-3 border border-blue-200">
-                <p className="text-gray-700 text-xs">
-                  <span className="font-semibold">Cálculo:</span> {baseVUs} VUs base × 10% = {Math.ceil(baseVUs * 0.1)} VUs
+
+              {/* Configuración K6 Options */}
+              <div className="bg-gray-800 rounded-lg p-4">
+                <div className="text-green-400 text-xs font-semibold mb-2">K6 Options:</div>
+                <pre className="text-green-400 text-xs overflow-x-auto">
+{`export const options = {
+  scenarios: {
+    smoke_test: {
+      executor: 'constant-arrival-rate', // Mantiene RPS constante
+      rate: ${Math.ceil(requestsPerSecond * 0.1 * 3600)}, // Requests por hora
+      timeUnit: '1h', // Unidad de tiempo para 'rate'
+      duration: '${smokeTestDurationNum}m', // Duración total del test
+      preAllocatedVUs: ${Math.ceil(baseVUs * 0.1)}, // VUs iniciales reservados
+      maxVUs: ${Math.ceil(baseVUs * 0.1 * 2)}, // VUs máximos (escala si es necesario)
+    },
+  },
+};
+
+export default function () {
+  http.get('https://tu-endpoint.com/api');
+}`}
+                </pre>
+                <div className="text-yellow-300 text-[10px] mt-2">
+                  ✅ constant-arrival-rate garantiza {(requestsPerSecond * 0.1).toFixed(2)} RPS constantes
                   <br />
-                  <span className="font-semibold">Objetivo:</span> Verificar que el sistema funciona correctamente con carga muy baja antes de pruebas más intensivas.
-                </p>
+                  📊 preAllocatedVUs: ${Math.ceil(baseVUs * 0.1)} | maxVUs: ${Math.ceil(baseVUs * 0.1 * 2)} (escala automáticamente si es necesario)
+                </div>
               </div>
             </div>
 
@@ -376,12 +403,41 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="bg-green-50 rounded-lg p-3 border border-green-200">
-                <p className="text-gray-700 text-xs">
-                  <span className="font-semibold">Cálculo:</span> {requestsPerSecond.toFixed(2)} req/s × {avgRespTimeSec.toFixed(3)}s = {baseVUs} VUs
+
+              {/* Configuración K6 Options */}
+              <div className="bg-gray-800 rounded-lg p-4">
+                <div className="text-green-400 text-xs font-semibold mb-2">K6 Options:</div>
+                <pre className="text-green-400 text-xs overflow-x-auto">
+{`export const options = {
+  scenarios: {
+    load_test: {
+      executor: 'ramping-arrival-rate', // RPS con rampas graduales
+      startRate: 0, // RPS inicial (empieza en 0)
+      timeUnit: '1h', // Unidad de tiempo para 'rate'
+      preAllocatedVUs: ${Math.ceil(baseVUs * 0.5)}, // VUs iniciales reservados
+      maxVUs: ${Math.ceil(baseVUs * 2)}, // VUs máximos (escala automáticamente)
+      stages: [
+        { duration: '2m', target: ${Math.ceil(requestsPerSecond * 0.5 * 3600)} }, // Sube gradualmente
+        { duration: '${loadTestDurationNum}m', target: ${Math.ceil(requestsPerSecond * 3600)} }, // Mantiene carga pico
+        { duration: '2m', target: 0 }, // Baja gradualmente
+      ],
+    },
+  },
+};
+
+export default function () {
+  http.get('https://tu-endpoint.com/api');
+}`}
+                </pre>
+                <div className="text-yellow-300 text-[10px] mt-2">
+                  ✅ ramping-arrival-rate garantiza el RPS objetivo: {requestsPerSecond.toFixed(2)} req/s
                   <br />
-                  <span className="font-semibold">Objetivo:</span> Simular la carga especificada ({requests} req/{timeUnit === 'second' ? 'segundo' : timeUnit === 'hour' ? 'hora' : 'día'}) para verificar que el servicio soporta la carga de producción esperada.
-                </p>
+                  📊 VUs se ajustan automáticamente entre ${Math.ceil(baseVUs * 0.5)} y ${Math.ceil(baseVUs * 2)}
+                  <br />
+                  ⏱️ Duración total real: {loadTestDurationNum + 4}m (incluye 2m ramp-up + {loadTestDurationNum}m peak + 2m ramp-down)
+                  <br />
+                  📈 Total requests esperado: ~{Math.ceil((requestsPerSecond * 0.5 * 2 * 60) + (requestsPerSecond * loadTestDurationNum * 60) + (requestsPerSecond * 0.5 * 2 * 60))} (más que los {Math.ceil(requestsPerSecond * loadTestDurationNum * 60)} del peak)
+                </div>
               </div>
             </div>
 
@@ -469,23 +525,69 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-              <div className="bg-orange-50 rounded-lg p-3 border border-orange-200">
-                <p className="text-gray-700 text-xs">
-                  <span className="font-semibold">Cálculo:</span> {requestsPerSecond.toFixed(2)} req/s × {stressMult} (multiplicador) = {stressRPS.toFixed(2)} req/s → {stressRPS.toFixed(2)} × {avgRespTimeSec.toFixed(3)}s = {stressVUs} VUs
+
+              {/* Configuración K6 Options */}
+              <div className="bg-gray-800 rounded-lg p-4">
+                <div className="text-green-400 text-xs font-semibold mb-2">K6 Options:</div>
+                <pre className="text-green-400 text-xs overflow-x-auto">
+{`export const options = {
+  scenarios: {
+    stress_test: {
+      executor: 'ramping-arrival-rate', // RPS con rampas graduales
+      startRate: 0, // RPS inicial (empieza en 0)
+      timeUnit: '1h', // Unidad de tiempo para 'rate'
+      preAllocatedVUs: ${Math.ceil(stressVUs * 0.5)}, // VUs iniciales reservados
+      maxVUs: ${Math.ceil(stressVUs * 2)}, // VUs máximos (escala automáticamente)
+      stages: [
+        { duration: '2m', target: ${Math.ceil(stressRPS * 0.5 * 3600)} }, // Sube gradualmente
+        { duration: '${stressTestDurationNum}m', target: ${Math.ceil(stressRPS * 3600)} }, // Mantiene sobrecarga
+        { duration: '2m', target: 0 }, // Baja gradualmente
+      ],
+    },
+  },
+};
+
+export default function () {
+  http.get('https://tu-endpoint.com/api');
+}`}
+                </pre>
+                <div className="text-yellow-300 text-[10px] mt-2">
+                  ✅ ramping-arrival-rate garantiza el RPS objetivo: {stressRPS.toFixed(2)} req/s
                   <br />
-                  <span className="font-semibold">Objetivo:</span> Aplicar {(stressMult * 100).toFixed(0)}% de la carga normal para estresar el sistema más allá de lo esperado y encontrar su punto de quiebre o degradación.
-                </p>
+                  📊 VUs se ajustan automáticamente entre ${Math.ceil(stressVUs * 0.5)} y ${Math.ceil(stressVUs * 2)}
+                  <br />
+                  ⏱️ Duración total real: {stressTestDurationNum + 4}m (incluye 2m ramp-up + {stressTestDurationNum}m peak + 2m ramp-down)
+                  <br />
+                  📈 Total requests esperado: ~{Math.ceil((stressRPS * 0.5 * 2 * 60) + (stressRPS * stressTestDurationNum * 60) + (stressRPS * 0.5 * 2 * 60))} (más que los {Math.ceil(stressRPS * stressTestDurationNum * 60)} del peak)
+                </div>
               </div>
             </div>
 
             {/* Spike Test */}
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
               <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <span className="text-2xl">⚡</span> Spike Test
+                <span className="text-2xl">⚡</span> Spike Test ({(spikeMult * 100).toFixed(0)}% de carga)
               </h3>
               <p className="text-gray-600 text-sm mb-4">
-                Picos repentinos de tráfico (2x la carga normal)
+                Picos repentinos de tráfico
               </p>
+
+              {/* Multiplicador de Spike */}
+              <div className="mb-4">
+                <label className="block text-gray-700 mb-2 text-sm font-medium">
+                  Multiplicador de Pico
+                </label>
+                <input
+                  type="number"
+                  step="0.1"
+                  value={spikeMultiplier}
+                  onChange={(e) => setSpikeMultiplier(e.target.value)}
+                  className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-gray-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                />
+                <p className="text-xs text-gray-500 mt-1">
+                  Ej: 2 = 200% de carga (2x)
+                </p>
+              </div>
 
               {/* Duración editable */}
               <div className="mb-4">
@@ -508,10 +610,10 @@ export default function Home() {
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">VUs</div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {baseVUs * 2}
+                    {spikeVUs}
                   </div>
                   <div className="text-gray-500 text-[10px] mt-1">
-                    VUs base × 2
+                    RPS × Tiempo Resp.
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
@@ -529,28 +631,58 @@ export default function Home() {
                     <RPSTooltip />
                   </div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {(requestsPerSecond * 2).toFixed(2)}
+                    {spikeRPS.toFixed(2)}
                   </div>
                   <div className="text-gray-500 text-[10px] mt-1">
-                    RPS base × 2
+                    RPS base × Multiplicador
                   </div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                   <div className="text-gray-600 text-xs mb-1">Total Requests</div>
                   <div className="text-2xl font-bold text-gray-900">
-                    {Math.ceil(requestsPerSecond * 2 * spikeTestDurationNum * 60)}
+                    {Math.ceil(spikeRPS * spikeTestDurationNum * 60)}
                   </div>
                   <div className="text-gray-500 text-[10px] mt-1">
                     RPS × Duración × 60s
                   </div>
                 </div>
               </div>
-              <div className="bg-red-50 rounded-lg p-3 border border-red-200">
-                <p className="text-gray-700 text-xs">
-                  <span className="font-semibold">Cálculo:</span> {baseVUs} VUs base × 2 = {baseVUs * 2} VUs (equivalente a {(requestsPerSecond * 2).toFixed(2)} req/s)
+
+              {/* Configuración K6 Options */}
+              <div className="bg-gray-800 rounded-lg p-4">
+                <div className="text-green-400 text-xs font-semibold mb-2">K6 Options:</div>
+                <pre className="text-green-400 text-xs overflow-x-auto">
+{`export const options = {
+  scenarios: {
+    spike_test: {
+      executor: 'ramping-arrival-rate', // RPS con rampas graduales
+      startRate: 0, // RPS inicial (empieza en 0)
+      timeUnit: '1h', // Unidad de tiempo para 'rate'
+      preAllocatedVUs: ${Math.ceil(spikeVUs * 0.5)}, // VUs iniciales reservados
+      maxVUs: ${Math.ceil(spikeVUs * 2)}, // VUs máximos (escala automáticamente)
+      stages: [
+        { duration: '30s', target: ${Math.ceil(requestsPerSecond * 3600)} }, // Calentamiento rápido
+        { duration: '1m', target: ${Math.ceil(spikeRPS * 3600)} }, // Pico súbito (spike)
+        { duration: '${spikeTestDurationNum}m', target: ${Math.ceil(spikeRPS * 3600)} }, // Mantiene el pico
+        { duration: '2m', target: 0 }, // Baja gradualmente
+      ],
+    },
+  },
+};
+
+export default function () {
+  http.get('https://tu-endpoint.com/api');
+}`}
+                </pre>
+                <div className="text-yellow-300 text-[10px] mt-2">
+                  ✅ ramping-arrival-rate garantiza el RPS objetivo: {spikeRPS.toFixed(2)} req/s en el pico
                   <br />
-                  <span className="font-semibold">Objetivo:</span> Simular un pico súbito de tráfico (200% de la carga normal) para verificar que el sistema puede manejar incrementos abruptos y recuperarse sin caídas.
-                </p>
+                  📊 VUs se ajustan automáticamente entre ${Math.ceil(spikeVUs * 0.5)} y ${Math.ceil(spikeVUs * 2)}
+                  <br />
+                  ⏱️ Duración total real: {spikeTestDurationNum + 3.5}m (incluye 0.5m warm-up + 1m spike-up + {spikeTestDurationNum}m peak + 2m ramp-down)
+                  <br />
+                  📈 Total requests esperado: ~{Math.ceil((requestsPerSecond * 0.5 * 60) + (requestsPerSecond * ((1 + spikeMult) / 2) * 1 * 60) + (spikeRPS * spikeTestDurationNum * 60) + (spikeRPS * 0.5 * 2 * 60))} (más que los {Math.ceil(spikeRPS * spikeTestDurationNum * 60)} del peak)
+                </div>
               </div>
             </div>
 
@@ -583,7 +715,8 @@ export default function () {
     'response time OK': (r) => r.timings.duration < ${parseFloat(avgResponseTime) * 1.5},
   });
 
-  sleep(1);
+  // NO necesitas sleep() con arrival-rate executors
+  // K6 ajusta automáticamente los VUs para mantener el RPS objetivo
 }`}</code>
               </pre>
 
