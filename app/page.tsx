@@ -330,10 +330,12 @@ export default function () {
   http.get('https://tu-endpoint.com/api');
 }`}
                 </pre>
-                <div className="text-yellow-300 text-[10px] mt-2">
-                  ✅ constant-arrival-rate garantiza {(requestsPerSecond * 0.1).toFixed(2)} RPS constantes
-                  <br />
-                  📊 preAllocatedVUs: ${Math.ceil(baseVUs * 0.1)} | maxVUs: ${Math.ceil(baseVUs * 0.1 * 2)} (escala automáticamente si es necesario)
+                <div className="border-t border-gray-600 mt-4 pt-3">
+                  <div className="text-yellow-300 text-[12px]">
+                    ✅ constant-arrival-rate garantiza {(requestsPerSecond * 0.1).toFixed(2)} RPS constantes
+                    <br />
+                    📊 preAllocatedVUs: {Math.ceil(baseVUs * 0.1)} | maxVUs: {Math.ceil(baseVUs * 0.1 * 2)} (escala automáticamente si es necesario)
+                  </div>
                 </div>
               </div>
             </div>
@@ -429,14 +431,16 @@ export default function () {
   http.get('https://tu-endpoint.com/api');
 }`}
                 </pre>
-                <div className="text-yellow-300 text-[10px] mt-2">
-                  ✅ ramping-arrival-rate garantiza el RPS objetivo: {requestsPerSecond.toFixed(2)} req/s
-                  <br />
-                  📊 VUs se ajustan automáticamente entre ${Math.ceil(baseVUs * 0.5)} y ${Math.ceil(baseVUs * 2)}
-                  <br />
-                  ⏱️ Duración total real: {loadTestDurationNum + 4}m (incluye 2m ramp-up + {loadTestDurationNum}m peak + 2m ramp-down)
-                  <br />
-                  📈 Total requests esperado: ~{Math.ceil((requestsPerSecond * 0.5 * 2 * 60) + (requestsPerSecond * loadTestDurationNum * 60) + (requestsPerSecond * 0.5 * 2 * 60))} (más que los {Math.ceil(requestsPerSecond * loadTestDurationNum * 60)} del peak)
+                <div className="border-t border-gray-600 mt-4 pt-3">
+                  <div className="text-yellow-300 text-[12px]">
+                    ✅ ramping-arrival-rate garantiza el RPS objetivo: {requestsPerSecond.toFixed(2)} req/s
+                    <br />
+                    📊 VUs se ajustan automáticamente entre {Math.ceil(baseVUs * 0.5)} y {Math.ceil(baseVUs * 2)}
+                    <br />
+                    ⏱️ Duración total real: {loadTestDurationNum + 4}m (incluye 2m ramp-up + {loadTestDurationNum}m peak + 2m ramp-down)
+                    <br />
+                    📈 Total requests esperado: ~{Math.ceil((requestsPerSecond * 0.5 * 2 * 60) + (requestsPerSecond * loadTestDurationNum * 60) + (requestsPerSecond * 0.5 * 2 * 60))} (más que los {Math.ceil(requestsPerSecond * loadTestDurationNum * 60)} del peak)
+                  </div>
                 </div>
               </div>
             </div>
@@ -551,14 +555,16 @@ export default function () {
   http.get('https://tu-endpoint.com/api');
 }`}
                 </pre>
-                <div className="text-yellow-300 text-[10px] mt-2">
-                  ✅ ramping-arrival-rate garantiza el RPS objetivo: {stressRPS.toFixed(2)} req/s
-                  <br />
-                  📊 VUs se ajustan automáticamente entre ${Math.ceil(stressVUs * 0.5)} y ${Math.ceil(stressVUs * 2)}
-                  <br />
-                  ⏱️ Duración total real: {stressTestDurationNum + 4}m (incluye 2m ramp-up + {stressTestDurationNum}m peak + 2m ramp-down)
-                  <br />
-                  📈 Total requests esperado: ~{Math.ceil((stressRPS * 0.5 * 2 * 60) + (stressRPS * stressTestDurationNum * 60) + (stressRPS * 0.5 * 2 * 60))} (más que los {Math.ceil(stressRPS * stressTestDurationNum * 60)} del peak)
+                <div className="border-t border-gray-600 mt-4 pt-3">
+                  <div className="text-yellow-300 text-[12px]">
+                    ✅ ramping-arrival-rate garantiza el RPS objetivo: {stressRPS.toFixed(2)} req/s
+                    <br />
+                    📊 VUs se ajustan automáticamente entre {Math.ceil(stressVUs * 0.5)} y {Math.ceil(stressVUs * 2)}
+                    <br />
+                    ⏱️ Duración total real: {stressTestDurationNum + 4}m (incluye 2m ramp-up + {stressTestDurationNum}m peak + 2m ramp-down)
+                    <br />
+                    📈 Total requests esperado: ~{Math.ceil((stressRPS * 0.5 * 2 * 60) + (stressRPS * stressTestDurationNum * 60) + (stressRPS * 0.5 * 2 * 60))} (más que los {Math.ceil(stressRPS * stressTestDurationNum * 60)} del peak)
+                  </div>
                 </div>
               </div>
             </div>
@@ -674,14 +680,16 @@ export default function () {
   http.get('https://tu-endpoint.com/api');
 }`}
                 </pre>
-                <div className="text-yellow-300 text-[10px] mt-2">
-                  ✅ ramping-arrival-rate garantiza el RPS objetivo: {spikeRPS.toFixed(2)} req/s en el pico
-                  <br />
-                  📊 VUs se ajustan automáticamente entre ${Math.ceil(spikeVUs * 0.5)} y ${Math.ceil(spikeVUs * 2)}
-                  <br />
-                  ⏱️ Duración total real: {spikeTestDurationNum + 3.5}m (incluye 0.5m warm-up + 1m spike-up + {spikeTestDurationNum}m peak + 2m ramp-down)
-                  <br />
-                  📈 Total requests esperado: ~{Math.ceil((requestsPerSecond * 0.5 * 60) + (requestsPerSecond * ((1 + spikeMult) / 2) * 1 * 60) + (spikeRPS * spikeTestDurationNum * 60) + (spikeRPS * 0.5 * 2 * 60))} (más que los {Math.ceil(spikeRPS * spikeTestDurationNum * 60)} del peak)
+                <div className="border-t border-gray-600 mt-4 pt-3">
+                  <div className="text-yellow-300 text-[12px]">
+                    ✅ ramping-arrival-rate garantiza el RPS objetivo: {spikeRPS.toFixed(2)} req/s en el pico
+                    <br />
+                    📊 VUs se ajustan automáticamente entre {Math.ceil(spikeVUs * 0.5)} y {Math.ceil(spikeVUs * 2)}
+                    <br />
+                    ⏱️ Duración total real: {spikeTestDurationNum + 3.5}m (incluye 0.5m warm-up + 1m spike-up + {spikeTestDurationNum}m peak + 2m ramp-down)
+                    <br />
+                    📈 Total requests esperado: ~{Math.ceil((requestsPerSecond * 0.5 * 60) + (requestsPerSecond * ((1 + spikeMult) / 2) * 1 * 60) + (spikeRPS * spikeTestDurationNum * 60) + (spikeRPS * 0.5 * 2 * 60))} (más que los {Math.ceil(spikeRPS * spikeTestDurationNum * 60)} del peak)
+                  </div>
                 </div>
               </div>
             </div>
