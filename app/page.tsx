@@ -209,7 +209,7 @@ export default function Home() {
               {/* Usuarios virtuales calculados */}
               <div className="bg-blue-50 rounded-xl p-4 mt-6 border border-blue-200">
                 <h3 className="text-sm font-semibold text-gray-900 mb-3">
-                  📐 Fórmula de Cálculo
+                  Fórmula de Cálculo
                 </h3>
                 <div className="bg-gray-800 rounded-lg p-3 mb-3">
                   <code className="text-green-400 text-xs">
@@ -244,8 +244,8 @@ export default function Home() {
           <div className="lg:col-span-3 space-y-6">
             {/* Smoke Test */}
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <span className="text-2xl">💨</span> Smoke Test
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Smoke Test
               </h3>
               <p className="text-gray-600 text-sm mb-4">
                 Verificación básica de funcionalidad con carga mínima
@@ -332,9 +332,9 @@ export default function () {
                 </pre>
                 <div className="border-t border-gray-600 mt-4 pt-3">
                   <div className="text-yellow-300 text-[12px]">
-                    ✅ constant-arrival-rate garantiza {(requestsPerSecond * 0.1).toFixed(2)} RPS constantes
+                    constant-arrival-rate garantiza {(requestsPerSecond * 0.1).toFixed(2)} RPS constantes
                     <br />
-                    📊 preAllocatedVUs: {Math.ceil(baseVUs * 0.1)} | maxVUs: {Math.ceil(baseVUs * 0.1 * 2)} (escala automáticamente si es necesario)
+                    preAllocatedVUs: {Math.ceil(baseVUs * 0.1)} | maxVUs: {Math.ceil(baseVUs * 0.1 * 2)} (escala automáticamente si es necesario)
                   </div>
                 </div>
               </div>
@@ -342,8 +342,8 @@ export default function () {
 
             {/* Load Test */}
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <span className="text-2xl">📊</span> Load Test (Carga Normal)
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Load Test (Carga Normal)
               </h3>
               <p className="text-gray-600 text-sm mb-4">
                 Prueba con la carga esperada en producción
@@ -433,13 +433,13 @@ export default function () {
                 </pre>
                 <div className="border-t border-gray-600 mt-4 pt-3">
                   <div className="text-yellow-300 text-[12px]">
-                    ✅ ramping-arrival-rate garantiza el RPS objetivo: {requestsPerSecond.toFixed(2)} req/s
+                    ramping-arrival-rate garantiza el RPS objetivo: {requestsPerSecond.toFixed(2)} req/s
                     <br />
-                    📊 VUs se ajustan automáticamente entre {Math.ceil(baseVUs * 0.5)} y {Math.ceil(baseVUs * 2)}
+                    VUs se ajustan automáticamente entre {Math.ceil(baseVUs * 0.5)} y {Math.ceil(baseVUs * 2)}
                     <br />
-                    ⏱️ Duración total real: {loadTestDurationNum + 4}m (incluye 2m ramp-up + {loadTestDurationNum}m peak + 2m ramp-down)
+                    Duración total real: {loadTestDurationNum + 4}m (incluye 2m ramp-up + {loadTestDurationNum}m peak + 2m ramp-down)
                     <br />
-                    📈 Total requests esperado: ~{Math.ceil((requestsPerSecond * 0.5 * 2 * 60) + (requestsPerSecond * loadTestDurationNum * 60) + (requestsPerSecond * 0.5 * 2 * 60))} (más que los {Math.ceil(requestsPerSecond * loadTestDurationNum * 60)} del peak)
+                    Total requests esperado: ~{Math.ceil((requestsPerSecond * 0.5 * 2 * 60) + (requestsPerSecond * loadTestDurationNum * 60) + (requestsPerSecond * 0.5 * 2 * 60))} (más que los {Math.ceil(requestsPerSecond * loadTestDurationNum * 60)} del peak)
                   </div>
                 </div>
               </div>
@@ -447,8 +447,8 @@ export default function () {
 
             {/* Stress Test */}
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <span className="text-2xl">🔥</span> Stress Test ({(stressMult * 100).toFixed(0)}% de carga)
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Stress Test ({(stressMult * 100).toFixed(0)}% de carga)
               </h3>
               <p className="text-gray-600 text-sm mb-4">
                 Prueba excediendo la carga normal para encontrar límites
@@ -457,7 +457,7 @@ export default function () {
               {/* Multiplicador de Estrés */}
               <div className="mb-4">
                 <label className="block text-gray-700 mb-2 text-sm font-medium">
-                  Multiplicador de Estrés
+                  Multiplicador
                 </label>
                 <input
                   type="number"
@@ -557,13 +557,13 @@ export default function () {
                 </pre>
                 <div className="border-t border-gray-600 mt-4 pt-3">
                   <div className="text-yellow-300 text-[12px]">
-                    ✅ ramping-arrival-rate garantiza el RPS objetivo: {stressRPS.toFixed(2)} req/s
+                    ramping-arrival-rate garantiza el RPS objetivo: {stressRPS.toFixed(2)} req/s
                     <br />
-                    📊 VUs se ajustan automáticamente entre {Math.ceil(stressVUs * 0.5)} y {Math.ceil(stressVUs * 2)}
+                    VUs se ajustan automáticamente entre {Math.ceil(stressVUs * 0.5)} y {Math.ceil(stressVUs * 2)}
                     <br />
-                    ⏱️ Duración total real: {stressTestDurationNum + 4}m (incluye 2m ramp-up + {stressTestDurationNum}m peak + 2m ramp-down)
+                    Duración total real: {stressTestDurationNum + 4}m (incluye 2m ramp-up + {stressTestDurationNum}m peak + 2m ramp-down)
                     <br />
-                    📈 Total requests esperado: ~{Math.ceil((stressRPS * 0.5 * 2 * 60) + (stressRPS * stressTestDurationNum * 60) + (stressRPS * 0.5 * 2 * 60))} (más que los {Math.ceil(stressRPS * stressTestDurationNum * 60)} del peak)
+                    Total requests esperado: ~{Math.ceil((stressRPS * 0.5 * 2 * 60) + (stressRPS * stressTestDurationNum * 60) + (stressRPS * 0.5 * 2 * 60))} (más que los {Math.ceil(stressRPS * stressTestDurationNum * 60)} del peak)
                   </div>
                 </div>
               </div>
@@ -571,8 +571,8 @@ export default function () {
 
             {/* Spike Test */}
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                <span className="text-2xl">⚡</span> Spike Test ({(spikeMult * 100).toFixed(0)}% de carga)
+              <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                Spike Test ({(spikeMult * 100).toFixed(0)}% de carga)
               </h3>
               <p className="text-gray-600 text-sm mb-4">
                 Picos repentinos de tráfico
@@ -581,7 +581,7 @@ export default function () {
               {/* Multiplicador de Spike */}
               <div className="mb-4">
                 <label className="block text-gray-700 mb-2 text-sm font-medium">
-                  Multiplicador de Pico
+                  Multiplicador
                 </label>
                 <input
                   type="number"
@@ -682,13 +682,13 @@ export default function () {
                 </pre>
                 <div className="border-t border-gray-600 mt-4 pt-3">
                   <div className="text-yellow-300 text-[12px]">
-                    ✅ ramping-arrival-rate garantiza el RPS objetivo: {spikeRPS.toFixed(2)} req/s en el pico
+                    ramping-arrival-rate garantiza el RPS objetivo: {spikeRPS.toFixed(2)} req/s en el pico
                     <br />
-                    📊 VUs se ajustan automáticamente entre {Math.ceil(spikeVUs * 0.5)} y {Math.ceil(spikeVUs * 2)}
+                    VUs se ajustan automáticamente entre {Math.ceil(spikeVUs * 0.5)} y {Math.ceil(spikeVUs * 2)}
                     <br />
-                    ⏱️ Duración total real: {spikeTestDurationNum + 3.5}m (incluye 0.5m warm-up + 1m spike-up + {spikeTestDurationNum}m peak + 2m ramp-down)
+                    Duración total real: {spikeTestDurationNum + 3.5}m (incluye 0.5m warm-up + 1m spike-up + {spikeTestDurationNum}m peak + 2m ramp-down)
                     <br />
-                    📈 Total requests esperado: ~{Math.ceil((requestsPerSecond * 0.5 * 60) + (requestsPerSecond * ((1 + spikeMult) / 2) * 1 * 60) + (spikeRPS * spikeTestDurationNum * 60) + (spikeRPS * 0.5 * 2 * 60))} (más que los {Math.ceil(spikeRPS * spikeTestDurationNum * 60)} del peak)
+                    Total requests esperado: ~{Math.ceil((requestsPerSecond * 0.5 * 60) + (requestsPerSecond * ((1 + spikeMult) / 2) * 1 * 60) + (spikeRPS * spikeTestDurationNum * 60) + (spikeRPS * 0.5 * 2 * 60))} (más que los {Math.ceil(spikeRPS * spikeTestDurationNum * 60)} del peak)
                   </div>
                 </div>
               </div>
@@ -697,13 +697,12 @@ export default function () {
             {/* Guía de Pruebas K6 */}
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                📚 Guía de Pruebas K6
+                Guía de Pruebas K6
               </h3>
 
               {/* Sección: Recomendaciones Generales */}
               <div className="mb-6">
-                <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                  <span className="text-base">✅</span>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">
                   Recomendaciones Generales
                 </h4>
                 <ul className="space-y-2 text-gray-700 text-sm">
@@ -718,16 +717,14 @@ export default function () {
 
               {/* Sección: Configuración Avanzada */}
               <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
-                  <span className="text-base">⚙️</span>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">
                   Configuración Avanzada
                 </h4>
 
                 {/* Explicación de Stages (Fases) */}
                 <details className="bg-gray-50 rounded-lg p-4 border border-gray-300">
-                <summary className="text-gray-900 font-semibold text-sm cursor-pointer hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <span className="text-base">⏱️</span>
-                  <span>Cálculo de Fases: Ramp-up, Stay y Ramp-down</span>
+                <summary className="text-gray-900 font-semibold text-sm cursor-pointer hover:text-blue-600 transition-colors">
+                  Cálculo de Fases: Ramp-up, Stay y Ramp-down
                 </summary>
                 <div className="text-gray-700 text-xs space-y-3 mt-3">
                   <p>
@@ -735,7 +732,7 @@ export default function () {
                   </p>
 
                   <div className="bg-white rounded p-3 border border-gray-300">
-                    <p className="font-semibold text-gray-900 mb-1">1️⃣ Ramp-up (Arranque gradual)</p>
+                    <p className="font-semibold text-gray-900 mb-1">1. Ramp-up (Arranque gradual)</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>
                         <span className="font-semibold">Duración sugerida:</span> 2-5 minutos para Load/Stress Test, 30-60s para Spike Test
@@ -753,7 +750,7 @@ export default function () {
                   </div>
 
                   <div className="bg-white rounded p-3 border border-gray-300">
-                    <p className="font-semibold text-gray-900 mb-1">2️⃣ Stay (Permanencia en pico)</p>
+                    <p className="font-semibold text-gray-900 mb-1">2. Stay (Permanencia en pico)</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>
                         <span className="font-semibold">Duración sugerida:</span> {loadTestDurationNum}min (Load Test), {stressTestDurationNum}min (Stress), {spikeTestDurationNum}min (Spike)
@@ -771,7 +768,7 @@ export default function () {
                   </div>
 
                   <div className="bg-white rounded p-3 border border-gray-300">
-                    <p className="font-semibold text-gray-900 mb-1">3️⃣ Ramp-down (Descenso gradual)</p>
+                    <p className="font-semibold text-gray-900 mb-1">3. Ramp-down (Descenso gradual)</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>
                         <span className="font-semibold">Duración sugerida:</span> 2-3 minutos
@@ -789,7 +786,7 @@ export default function () {
                   </div>
 
                   <div className="bg-gray-100 rounded p-3 border border-gray-400 mt-2">
-                    <p className="font-semibold text-gray-900 mb-1">🎯 Regla general:</p>
+                    <p className="font-semibold text-gray-900 mb-1">Regla general:</p>
                     <ul className="list-disc list-inside space-y-1 ml-2">
                       <li>
                         <span className="font-semibold">Sistemas con auto-scaling:</span> Ramp-up más largo (5-10m) para dar tiempo a escalar
@@ -807,16 +804,15 @@ export default function () {
                   </div>
 
                   <p className="text-gray-900 font-semibold mt-2 bg-gray-100 p-2 rounded border border-gray-400">
-                    💡 Los valores en el script son <span className="underline">sugerencias iniciales</span>. Ajústalos según la arquitectura de tu sistema, tipo de prueba y tiempo disponible para ejecutarla.
+                    Nota: Los valores en el script son <span className="underline">sugerencias iniciales</span>. Ajústalos según la arquitectura de tu sistema, tipo de prueba y tiempo disponible para ejecutarla.
                   </p>
                 </div>
               </details>
 
               {/* Explicación de Thresholds */}
               <details className="mt-4 bg-gray-50 rounded-lg p-4 border border-gray-300">
-                <summary className="text-gray-900 font-semibold text-sm cursor-pointer hover:text-blue-600 transition-colors flex items-center gap-2">
-                  <span className="text-base">🎯</span>
-                  <span>Configuración de Thresholds (Umbrales)</span>
+                <summary className="text-gray-900 font-semibold text-sm cursor-pointer hover:text-blue-600 transition-colors">
+                  Configuración de Thresholds (Umbrales)
                 </summary>
                 <div className="text-gray-700 text-xs space-y-2 mt-3">
                   <p>
@@ -835,7 +831,7 @@ export default function () {
                     </li>
                   </ul>
                   <p className="text-gray-900 font-semibold mt-2">
-                    💡 Mide primero el rendimiento actual de producción y establece thresholds basados en esos datos reales, no en estimaciones.
+                    Nota: Mide primero el rendimiento actual de producción y establece thresholds basados en esos datos reales, no en estimaciones.
                   </p>
                 </div>
               </details>
