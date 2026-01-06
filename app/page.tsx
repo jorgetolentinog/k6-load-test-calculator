@@ -686,42 +686,37 @@ export default function () {
               </div>
             </div>
 
-            {/* K6 Script Example */}
+            {/* Guía de Pruebas K6 */}
             <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
               <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                Ejemplo K6 Script - Load Test
+                📚 Guía de Pruebas K6
               </h3>
-              <pre className="bg-gray-800 rounded-lg p-4 overflow-x-auto text-sm">
-                <code className="text-green-400">{`import http from 'k6/http';
-import { check, sleep } from 'k6';
 
-export const options = {
-  stages: [
-    { duration: '2m', target: ${Math.ceil(baseVUs * 0.5)} }, // Ramp-up
-    { duration: '${loadTestDurationNum}m', target: ${baseVUs} }, // Stay at peak
-    { duration: '2m', target: 0 }, // Ramp-down
-  ],
-  thresholds: {
-    http_req_duration: ['p(95)<${parseFloat(avgResponseTime) * 1.5}'], // 95% bajo ${parseFloat(avgResponseTime) * 1.5}ms
-    http_req_failed: ['rate<0.01'], // Error rate < 1%
-  },
-};
+              {/* Sección: Recomendaciones Generales */}
+              <div className="mb-6">
+                <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <span className="text-base">✅</span>
+                  Recomendaciones Generales
+                </h4>
+                <ul className="space-y-2 text-gray-700 text-sm">
+                  <li>• Ejecuta primero el Smoke Test para verificar funcionalidad básica</li>
+                  <li>• Luego el Load Test para validar rendimiento bajo carga normal</li>
+                  <li>• Stress Test te ayudará a encontrar el punto de quiebre del sistema</li>
+                  <li>• Spike Test valida la capacidad de recuperación ante picos súbitos</li>
+                  <li>• Monitorea CPU, memoria y conexiones de BD durante las pruebas</li>
+                  <li>• Observa el RPS real de K6 (pasa el mouse sobre el ícono ⓘ para más info)</li>
+                </ul>
+              </div>
 
-export default function () {
-  const res = http.get('https://tu-endpoint.com/api');
+              {/* Sección: Configuración Avanzada */}
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3 flex items-center gap-2">
+                  <span className="text-base">⚙️</span>
+                  Configuración Avanzada
+                </h4>
 
-  check(res, {
-    'status is 200': (r) => r.status === 200,
-    'response time OK': (r) => r.timings.duration < ${parseFloat(avgResponseTime) * 1.5},
-  });
-
-  // NO necesitas sleep() con arrival-rate executors
-  // K6 ajusta automáticamente los VUs para mantener el RPS objetivo
-}`}</code>
-              </pre>
-
-              {/* Explicación de Stages (Fases) */}
-              <details className="mt-4 bg-gray-50 rounded-lg p-4 border border-gray-300">
+                {/* Explicación de Stages (Fases) */}
+                <details className="bg-gray-50 rounded-lg p-4 border border-gray-300">
                 <summary className="text-gray-900 font-semibold text-sm cursor-pointer hover:text-blue-600 transition-colors flex items-center gap-2">
                   <span className="text-base">⏱️</span>
                   <span>Cálculo de Fases: Ramp-up, Stay y Ramp-down</span>
@@ -836,21 +831,7 @@ export default function () {
                   </p>
                 </div>
               </details>
-            </div>
-
-            {/* Recomendaciones */}
-            <div className="bg-white rounded-xl shadow-sm p-6 border border-gray-200">
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                📋 Recomendaciones
-              </h3>
-              <ul className="space-y-2 text-gray-700 text-sm">
-                <li>• Ejecuta primero el Smoke Test para verificar funcionalidad básica</li>
-                <li>• Luego el Load Test para validar rendimiento bajo carga normal</li>
-                <li>• Stress Test te ayudará a encontrar el punto de quiebre del sistema</li>
-                <li>• Spike Test valida la capacidad de recuperación ante picos súbitos</li>
-                <li>• Monitorea CPU, memoria y conexiones de BD durante las pruebas</li>
-                <li>• Observa el RPS real de K6 (pasa el mouse sobre el ícono ⓘ para más info)</li>
-              </ul>
+              </div>
             </div>
           </div>
         </div>
