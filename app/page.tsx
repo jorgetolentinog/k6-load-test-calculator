@@ -419,7 +419,7 @@ export default function () {
       preAllocatedVUs: ${Math.ceil(baseVUs * 0.5)}, // VUs iniciales reservados
       maxVUs: ${Math.ceil(baseVUs * 2)}, // VUs máximos (escala automáticamente)
       stages: [
-        { duration: '2m', target: ${Math.ceil(requestsPerSecond * 0.5 * 3600)} }, // Sube gradualmente
+        { duration: '2m', target: ${Math.ceil(requestsPerSecond * 3600)} }, // Sube gradualmente al pico
         { duration: '${loadTestDurationNum}m', target: ${Math.ceil(requestsPerSecond * 3600)} }, // Mantiene carga pico
         { duration: '2m', target: 0 }, // Baja gradualmente
       ],
@@ -543,7 +543,7 @@ export default function () {
       preAllocatedVUs: ${Math.ceil(stressVUs * 0.5)}, // VUs iniciales reservados
       maxVUs: ${Math.ceil(stressVUs * 2)}, // VUs máximos (escala automáticamente)
       stages: [
-        { duration: '2m', target: ${Math.ceil(stressRPS * 0.5 * 3600)} }, // Sube gradualmente
+        { duration: '2m', target: ${Math.ceil(stressRPS * 3600)} }, // Sube gradualmente al pico
         { duration: '${stressTestDurationNum}m', target: ${Math.ceil(stressRPS * 3600)} }, // Mantiene sobrecarga
         { duration: '2m', target: 0 }, // Baja gradualmente
       ],
